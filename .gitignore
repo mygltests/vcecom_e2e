@@ -1,4 +1,5 @@
 # Directory config
 config/
 
-
+# Directory .idea
+.idea/
