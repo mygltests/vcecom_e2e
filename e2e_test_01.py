@@ -234,3 +234,43 @@ try:
 	print(room_link)
 except:
 	print("Failed to find Delete button")
+
+# Visit User Management page
+try:
+	user_management_button = driver.find_element_by_css_selector('a[href="/user-management"]')
+	user_management_button.click()
+	print('User Management page is opened!')
+except:
+	print('Failed to find "User Management" button!')
+
+assert driver.current_url == (base_url + '/user-management')
+
+# Visit Plan details page
+try:
+	plan_details_button = driver.find_element_by_css_selector('a[href="/upgrade-plan"]')
+	plan_details_button.click()
+	print('Plan details page is opened!')
+except:
+	print('Failed to find "Plan details" button!')
+
+assert driver.current_url == (base_url + '/upgrade-plan')
+
+try:
+	my_account_button = driver.find_element_by_css_selector("#dropdownMenuLink")
+	my_account_button.click()
+	print('Account menu is opened!')
+except:
+	print('Failed to find "My Account" button!')
+
+try:
+	logout_button = driver.find_element_by_css_selector("a.dropdown-item.last-it")
+	logout_button.click()
+	print('Logged out!')
+except:
+	print('Failed to find "Logout" button!')
+
+driver.back()
+
+assert driver.current_url == (base_url + '/login-widget')
+
+assert driver.find_element_by_css_selector("#okta-sign-in") != None
