@@ -235,6 +235,7 @@ try:
 except:
 	print("Failed to find Delete button")
 
+time.sleep(1)
 # Visit User Management page
 try:
 	user_management_button = driver.find_element_by_css_selector('a[href="/user-management"]')
@@ -245,6 +246,7 @@ except:
 
 assert driver.current_url == (base_url + '/user-management')
 
+time.sleep(1)
 # Visit Plan details page
 try:
 	plan_details_button = driver.find_element_by_css_selector('a[href="/upgrade-plan"]')
@@ -255,6 +257,7 @@ except:
 
 assert driver.current_url == (base_url + '/upgrade-plan')
 
+time.sleep(1)
 try:
 	my_account_button = driver.find_element_by_css_selector("#dropdownMenuLink")
 	my_account_button.click()
@@ -262,6 +265,7 @@ try:
 except:
 	print('Failed to find "My Account" button!')
 
+time.sleep(1)
 try:
 	logout_button = driver.find_element_by_css_selector("a.dropdown-item.last-it")
 	logout_button.click()
@@ -269,8 +273,10 @@ try:
 except:
 	print('Failed to find "Logout" button!')
 
+time.sleep(1)
 driver.back()
 
+time.sleep(1)
 assert driver.current_url == (base_url + '/login-widget')
 
 assert driver.find_element_by_css_selector("#okta-sign-in") != None
