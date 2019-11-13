@@ -221,17 +221,16 @@ assert deleteMe_room_name not in get_rooms_names(driver)
 
 ########## PASS ##############
 
-# # Create room to check link availability
-# random_room_name = randomString(10)
-# create_room(driver, random_room_name)
-#
-# time.sleep(2)
-# assert random_room_name in get_rooms_names(driver)
-#
-# try:
-# 	random_room_link = driver.find_element_by_xpath(
-# 		"//input[contains(@value, '%s')]//ancestor::app-filled-room//span[contains(text(),'Room Link')]//following-sibling::a" % random_room_name).get(???????)
-# 	random_room_link.click()
-# 	print("Confirm room deletion")
-# except:
-# 	print("Failed to find Delete button")
+# Create room to check link availability
+
+new_room_name='CheckRoomLink'
+create_room(driver, new_room_name)
+
+assert new_room_name in get_rooms_names(driver)
+
+try:
+	check_link_room_name = driver.find_element_by_xpath("//input[starts-with(@value, 'CheckRoomLink')]").get_attribute("value") # get room to delete name
+	room_link = driver.find_element_by_xpath("//input[contains(@value, 'CheckRoomLink')]//ancestor::app-filled-room//a[contains(text(),'https://')]").text
+	print(room_link)
+except:
+	print("Failed to find Delete button")
