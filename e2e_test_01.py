@@ -219,10 +219,7 @@ except:
 time.sleep(1)
 assert deleteMe_room_name not in get_rooms_names(driver)
 
-########## PASS ##############
-
 # Create room to check link availability
-
 new_room_name='CheckRoomLink'
 create_room(driver, new_room_name)
 
