@@ -15,6 +15,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+import login
+
 # Read data from config file: base_url, user cred., ...
 info = pickle.load( open( "config/config", "rb" ) )
 
@@ -71,44 +73,10 @@ try:
 except:
 	print('Cannot find button on the banner!')
 
-#time.sleep(1)
-
-try:
-	email_field = driver.find_element_by_css_selector("#input25")
-	email_field.clear()
-	email_field.send_keys(valid_email)  
-except:
-	print('Cannot find email text field!')
-
-#time.sleep(1)
-
-try:
-	password_field = driver.find_element_by_css_selector("#input32")
-	password_field.clear()
-	password_field.send_keys(valid_password)
-except:
-	print('Cannot find password text field!')
-
-#time.sleep(1)
-
-try:
-	signin_button = driver.find_element_by_css_selector("input[type='submit']")
-	signin_button.click()
-except:
-	print('Cannot find SIGN IN button!')
+# Signing in
+login.log_in(driver, valid_email, valid_password)
 
 time.sleep(1)
-
-
-##### HOME PAGE #####
-# Welcome message
-try:
-	hello_message = driver.find_element_by_css_selector("div.row.summary-info > div.col-12.col-md-5 > h2:nth-child(2)")
-	print('User is signed in!')
-except:
-	print('Cannot find welcome message!')
-
-# time.sleep(2) 
 
 ##### MY MEETINGS ROOM PAGE #####
 # Visit Meeting rooms page
@@ -227,53 +195,68 @@ assert new_room_name in get_rooms_names(driver)
 
 try:
 	check_link_room_name = driver.find_element_by_xpath("//input[starts-with(@value, 'CheckRoomLink')]").get_attribute("value") # get room to delete name
-	room_link = driver.find_element_by_xpath("//input[contains(@value, 'CheckRoomLink')]//ancestor::app-filled-room//a[contains(text(),'https://')]").text
-	print(room_link)
+	room_link = driver.find_element_by_xpath("//input[contains(@value, 'CheckRoomLink')]//ancestor::app-filled-room//a[contains(text(),'https://')]")
+	room_link_text = driver.find_element_by_xpath("//input[contains(@value, 'CheckRoomLink')]//ancestor::app-filled-room//a[contains(text(),'https://')]").text
+	print("Room link extracted")
 except:
-	print("Failed to find Delete button")
+	print("Failed to find/extract Delete button")
 
-time.sleep(1)
-# Visit User Management page
 try:
-	user_management_button = driver.find_element_by_css_selector('a[href="/user-management"]')
-	user_management_button.click()
-	print('User Management page is opened!')
+	room_link.click()
 except:
-	print('Failed to find "User Management" button!')
+	print("Failed to click the room link")
 
-assert driver.current_url == (base_url + '/user-management')
+time.sleep(3)
+for handle in driver.window_handles:
+	driver.switch_to.window(handle)
+	if driver.current_url == room_link_text:
+		try:
 
-time.sleep(1)
-# Visit Plan details page
-try:
-	plan_details_button = driver.find_element_by_css_selector('a[href="/upgrade-plan"]')
-	plan_details_button.click()
-	print('Plan details page is opened!')
-except:
-	print('Failed to find "Plan details" button!')
 
-assert driver.current_url == (base_url + '/upgrade-plan')
 
-time.sleep(1)
-try:
-	my_account_button = driver.find_element_by_css_selector("#dropdownMenuLink")
-	my_account_button.click()
-	print('Account menu is opened!')
-except:
-	print('Failed to find "My Account" button!')
 
-time.sleep(1)
-try:
-	logout_button = driver.find_element_by_css_selector("a.dropdown-item.last-it")
-	logout_button.click()
-	print('Logged out!')
-except:
-	print('Failed to find "Logout" button!')
-
-time.sleep(1)
-driver.back()
-
-time.sleep(1)
-assert driver.current_url == (base_url + '/login-widget')
-
-assert driver.find_element_by_css_selector("#okta-sign-in") != None
+# time.sleep(1)
+# # Visit User Management page
+# try:
+# 	user_management_button = driver.find_element_by_css_selector('a[href="/user-management"]')
+# 	user_management_button.click()
+# 	print('User Management page is opened!')
+# except:
+# 	print('Failed to find "User Management" button!')
+#
+# assert driver.current_url == (base_url + '/user-management')
+#
+# time.sleep(1)
+# # Visit Plan details page
+# try:
+# 	plan_details_button = driver.find_element_by_css_selector('a[href="/upgrade-plan"]')
+# 	plan_details_button.click()
+# 	print('Plan details page is opened!')
+# except:
+# 	print('Failed to find "Plan details" button!')
+#
+# assert driver.current_url == (base_url + '/upgrade-plan')
+#
+# time.sleep(1)
+# try:
+# 	my_account_button = driver.find_element_by_css_selector("#dropdownMenuLink")
+# 	my_account_button.click()
+# 	print('Account menu is opened!')
+# except:
+# 	print('Failed to find "My Account" button!')
+#
+# time.sleep(1)
+# try:
+# 	logout_button = driver.find_element_by_css_selector("a.dropdown-item.last-it")
+# 	logout_button.click()
+# 	print('Logged out!')
+# except:
+# 	print('Failed to find "Logout" button!')
+#
+# time.sleep(1)
+# driver.back()
+#
+# time.sleep(1)
+# assert driver.current_url == (base_url + '/login-widget')
+#
+# assert driver.find_element_by_css_selector("#okta-sign-in") != None
