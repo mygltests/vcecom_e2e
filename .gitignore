@@ -3,3 +3,6 @@ config/
 
 # Directory .idea
 .idea/
+
+# Directory
+__pycache__/
