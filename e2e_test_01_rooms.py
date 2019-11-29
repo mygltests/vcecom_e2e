@@ -1,6 +1,6 @@
 ###### Test steps ########
 # Sign in
-# Navigate to Meeting Rooms page
+# Navigate to Org page
 # CRUD rooms
 # Log out
 ##########################
@@ -16,6 +16,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 import login
+
+
+class LoginPage:
+	username = (By.CSS_SELECTOR, '.sdfg')
 
 # Read data from config file: base_url, user cred., ...
 info = pickle.load( open( "config/config", "rb" ) )
